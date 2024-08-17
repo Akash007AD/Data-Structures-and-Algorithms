@@ -57,19 +57,39 @@ int pop(struct stack *ptr)
         return value;
     }
 }
+int match(char a, char b)
+{
+    if (a == '(' && b == ')')
+    {
+        return 1;
+    }
+    else if (a == '{' && b == '}')
+    {
+        return 1;
+    }
+    else if (a == '[' && b == ']')
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
 int parenthesisMatch(char *exp)
 {
     struct stack *sp;
     sp->size = strlen(exp);
     sp->top = -1;
     sp->arr = (char *)malloc(sp->size * sizeof(char));
+    char temp;
     for (int i = 0; exp[i] != '\0'; i++)
     {
-        if (exp[i] == '(')
+        if (exp[i] == '(' || exp[i] == '{' || exp[i] == '[')
         {
-            push(sp, '(');
+            push(sp, exp[i]);
         }
-        else if (exp[i] == ')')
+        else if (exp[i] == ')' || exp[i] == '}' || exp[i] == ']')
         {
             if (isempty(sp))
             {
@@ -77,7 +97,9 @@ int parenthesisMatch(char *exp)
             }
             else
             {
-                pop(sp);
+                temp = pop(sp);
+                if (!match(temp, exp[i]))
+                    return 0;
             }
         }
     }
@@ -92,15 +114,15 @@ int parenthesisMatch(char *exp)
 }
 int main()
 {
-    char *exp = "10+(2*5/7)+(2+3)-(2+4)*(70)";
+    char *exp = "{7-(3-2)+[8+(99-11)]})";
 
     if (parenthesisMatch(exp))
     {
-        printf("Parenthesis is matching \n");
+        printf("Parenthesis are balanced \n");
     }
     else
     {
-        printf("Parenthesis is not matching \n");
+        printf("Parenthesis are not balanced \n");
     }
 
     return 0;
