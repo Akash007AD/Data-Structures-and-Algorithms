@@ -1,109 +1,139 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct Queue {
-    int *data;
-    int front, rear, size, capacity;
-} Queue;
+int *queue;
+int front = -1 , rear = -1  , capacity = 0;
 
-// Function to create a queue with a given initial capacity
-Queue* createQueue(int capacity) {
-    Queue* queue = (Queue*)malloc(sizeof(Queue));
-    queue->capacity = capacity;
-    queue->front = queue->size = 0;
-    queue->rear = capacity - 1;
-    queue->data = (int*)malloc(queue->capacity * sizeof(int));
-    return queue;
-}
-
-// Function to check if the queue is full
-int isFull(Queue* queue) {
-    return (queue->size == queue->capacity);
-}
-
-// Function to check if the queue is empty
-int isEmpty(Queue* queue) {
-    return (queue->size == 0);
-}
-
-// Function to resize the queue when full
-void resizeQueue(Queue* queue) {
-    queue->capacity *= 2;
-    queue->data = (int*)realloc(queue->data, queue->capacity * sizeof(int));
-}
-
-// Function to insert an element into the queue
-void insert(Queue* queue, int value) {
-    if (isFull(queue)) {
-        resizeQueue(queue);
-        printf("Queue is full, resizing...\n");
+void createQueue(int size)
+{
+    queue= (int*)malloc(size  * sizeof(int));
+    if (queue == NULL)
+    {
+        printf("Memory allocation failed!!");
+        exit(1);
     }
-    queue->rear = (queue->rear + 1) % queue->capacity;
-    queue->data[queue->rear] = value;
-    queue->size++;
-    printf("Inserted %d into the queue.\n", value);
+    capacity = size;
 }
 
-// Function to delete an element from the queue
-void delete(Queue* queue) {
-    if (isEmpty(queue)) {
-        printf("Queue is empty! Cannot delete.\n");
+int isEmpty()
+{
+    return front == -1;
+}
+
+int isFull()
+{
+    return rear == capacity -1;
+}
+
+void enqueue(int data)
+{
+    if(isFull())
+    {
+        printf("Queue is full\n");
         return;
     }
-    int value = queue->data[queue->front];
-    queue->front = (queue->front + 1) % queue->capacity;
-    queue->size--;
-    printf("Deleted %d from the queue.\n", value);
+    rear++;
+    queue[rear]=data;
+    if(front == -1)
+    {
+        front = 0;
+    }
 }
 
-// Function to display the elements in the queue
-void display(Queue* queue) {
-    if (isEmpty(queue)) {
-        printf("Queue is empty!\n");
-        return;
+int dequeue()
+{
+    if (isEmpty())
+    {
+        printf("Queue is empty\n");
+        return -1;
     }
-    printf("Queue elements are: ");
-    for (int i = 0; i < queue->size; i++) {
-        int index = (queue->front + i) % queue->capacity;
-        printf("%d ", queue->data[index]);
+    int data = queue[front];
+    if (front == rear)
+    {
+        front = rear = -1;
+    }
+    else
+    {
+        front++;
+    }
+    return data;
+}
+
+void display()
+{
+    if (isEmpty())
+    {
+        printf("The Queue is Empty");
+        return;        
+    }
+    printf("Queue: ");
+    for(int i=front;i<= rear; i++)
+    {
+        printf("%d ", queue[i]);
     }
     printf("\n");
 }
 
-// Main function
-int main() {
-    int choice, value;
-    Queue* queue = createQueue(2); // Initial capacity of 2
+void freeQueue()
+{
+    free(queue);
+}
 
-    while (1) {
-        printf("\nQueue Operations:\n");
-        printf("1. Insert\n");
-        printf("2. Delete\n");
-        printf("3. Display\n");
-        printf("4. Exit\n");
+int main()
+{
+    int size;
+    printf("Enter the size of the queue: ");
+    scanf("%d",&size);
+    
+    createQueue(size);
+    
+    int choice,element;
+    printf("\nMENU\n");
+        printf("1.Enqueue\n");
+        printf("2.Dequeue\n");
+        printf("3.Dispaly\n");
+        printf("4.Exit\n");
+    while(1)
+    {
+        
         printf("Enter your choice: ");
-        scanf("%d", &choice);
-
-        switch (choice) {
+        scanf("%d",&choice);
+        
+        switch(choice)
+        {
             case 1:
-                printf("Enter value to insert: ");
-                scanf("%d", &value);
-                insert(queue, value);
+                if(isFull())
+                {
+                    printf("\nThe Queue is full\n");
+                }
+                else
+                {
+                    printf("Enter the element of the enqueue: ");
+                    scanf("%d",&element);
+                    enqueue(element);
+                }
                 break;
             case 2:
-                delete(queue);
+                if (isEmpty())
+                {
+                    printf("Queue is empty\n");
+                } else
+                {
+                    element = dequeue();
+                    printf("Dequeued element: %d\n", element);
+                }
                 break;
             case 3:
-                display(queue);
+                display();
                 break;
             case 4:
-                printf("Exiting...\n");
-                free(queue->data); // Free the dynamically allocated memory
-                free(queue);
+                freeQueue();
                 exit(0);
             default:
-                printf("Invalid choice! Please try again.\n");
+                printf("Invalid choice\n");
         }
     }
+
     return 0;
+        
 }

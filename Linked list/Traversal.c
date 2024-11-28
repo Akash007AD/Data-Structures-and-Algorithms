@@ -5,10 +5,14 @@
      struct Node * next;
  };
  void linkedlist_traversal_pointer(struct Node* ptr){
+     int i =1;
      while(ptr!=NULL){
-     printf("Element: %d \n",ptr->data);
+     printf("Element %d: %d ->",i,ptr->data);
+     i++;
      ptr=ptr->next;
+
      }
+     printf("NULL");
  }
  int main(){
      struct Node* head;

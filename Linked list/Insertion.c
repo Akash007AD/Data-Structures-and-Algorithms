@@ -7,10 +7,14 @@ struct Node{
 };
 
 void traverse(struct Node *ptr){
-    while(ptr != NULL){
-        printf("Element: %d \n",ptr->data);
-        ptr =ptr->next;
-    }
+   int i =1;
+     while(ptr!=NULL){
+     printf("Element %d: %d ->",i,ptr->data);
+     i++;
+     ptr=ptr->next;
+
+     }
+     printf("NULL");
 }
 //inserting a node at the first position as new head
 struct Node * Insertfirst(struct Node * head,int data){

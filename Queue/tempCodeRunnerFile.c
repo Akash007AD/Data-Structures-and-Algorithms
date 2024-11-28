@@ -1,0 +1,1 @@
+printf("Dequeueing element: %d \n ",dequeue(&q));
