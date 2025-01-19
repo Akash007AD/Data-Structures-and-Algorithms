@@ -12,7 +12,5 @@ This section includes implementation and explanations of fundamental data struct
 - **Linked Lists** (Singly, Doubly, Circular)
 - **Stacks**
 - **Queues** (Simple, Circular, Priority)
-- **Hash Tables**
-- **Trees** (Binary Tree, Binary Search Tree, AVL, B-Trees)
-- **Graphs** (Adjacency Matrix, Adjacency List)
-- **Heaps
+- **Trees** 
+- **Graphs** 
