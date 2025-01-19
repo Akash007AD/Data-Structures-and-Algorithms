@@ -59,10 +59,11 @@ int pop(struct stack *ptr)
 }
 int parenthesisMatch(char *exp)
 {
-    struct stack *sp;
+    struct stack *sp = (struct stack *)malloc(sizeof(struct stack)); // Allocate memory for sp
     sp->size = strlen(exp);
     sp->top = -1;
-    sp->arr = (char *)malloc(sp->size * sizeof(char));
+    sp->arr = (char *)malloc(sp->size * sizeof(char)); // Allocate memory for the stack array
+
     for (int i = 0; exp[i] != '\0'; i++)
     {
         if (exp[i] == '(')
@@ -73,6 +74,8 @@ int parenthesisMatch(char *exp)
         {
             if (isempty(sp))
             {
+                free(sp->arr); // Free allocated memory
+                free(sp);
                 return 0;
             }
             else
@@ -81,15 +84,13 @@ int parenthesisMatch(char *exp)
             }
         }
     }
-    if (isempty(sp))
-    {
-        return 1;
-    }
-    else
-    {
-        return 0;
-    }
+
+    int result = isempty(sp); // Check if the stack is empty
+    free(sp->arr); // Free allocated memory for the stack array
+    free(sp);      // Free allocated memory for sp
+    return result;
 }
+
 int main()
 {
     char *exp = "10+(2*5/7)+(2+3)-(2+4)*(70)";
