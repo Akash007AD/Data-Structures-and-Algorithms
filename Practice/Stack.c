@@ -56,10 +56,18 @@ void check(struct stack* stack){
         printf("Stack is not full\n");
     }
 }
+void printstack(struct stack*  ptr){
+    for(int i=0;i<=ptr->size-1;i++){
+        printf("%d ",ptr->arr[i]);
+    }
+}
 int main(){
-    struct stack* stack=createStack(5);
+    struct stack* stack=createStack(10);
     check(stack);
-    push(stack,5);
+    for(int i=0;i<20;i=i+2){
+        push(stack,i);
+    }
     check(stack);
+    printstack(stack);
     return 0;
 }
