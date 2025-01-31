@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "INSERTION AT THE END .C": "cpp",
-        "Parenthesis_check.C": "cpp"
+        "Parenthesis_check.C": "cpp",
+        "stdio.h": "c"
     }
 }
