@@ -1,4 +1,4 @@
-// Write the pseudo code to determine whether a singly linked list of integers is a palindrome.
+// Write the pseudo code to implement a Double Ended Queue using Doubly Linked List
 #include <stdio.h>
 #include <stdlib.h>
 struct node
